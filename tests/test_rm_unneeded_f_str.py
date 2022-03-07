@@ -48,7 +48,9 @@ def test_removes_unneeded_import_on_multilines(before, after, tmp_path):
         "'hello world'",
         # multi-line strings
         "f'''hello\n{world}'''",
-
+        # we can't rewrite the following since the AST combines
+        # it into one string. At the very least, let's not fail
+        "{'a': 'hi' f'hello'}",
     ],
 )
 def test_doesnt_remove_unneeded_import(unchanged_input, tmp_path):
