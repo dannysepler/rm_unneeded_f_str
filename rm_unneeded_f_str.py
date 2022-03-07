@@ -58,23 +58,24 @@ def visit_file(file: Path) -> bool:
         return True
 
 
-def visit_path(file_or_dir: str) -> int:
+def visit_paths(files_or_dirs: list[str]) -> int:
     ret = 0
-    path = Path(file_or_dir)
-    if path.is_dir():
-        for p in path.glob('**/*.py'):
-            ret += int(visit_file(p))
-    else:
-        ret += int(visit_file(path))
+    for file_or_dir in files_or_dirs:
+        path = Path(file_or_dir)
+        if path.is_dir():
+            for p in path.glob('**/*.py'):
+                ret += int(visit_file(p))
+        else:
+            ret += int(visit_file(path))
     return ret
 
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument('file_or_dir')
+    parser.add_argument('file_or_dir', nargs='*')
     args = parser.parse_args()
 
-    return visit_path(args.file_or_dir)
+    return visit_paths(args.file_or_dir)
 
 
 if __name__ == '__main__':
