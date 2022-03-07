@@ -5,3 +5,4 @@
 /.mypy_cache
 /.pytest_cache
 dist
+/.DS_Store
