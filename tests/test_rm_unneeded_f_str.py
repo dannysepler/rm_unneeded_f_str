@@ -1,6 +1,6 @@
 import pytest
 
-from rm_unneeded_f_str.main import visit_file
+from rm_unneeded_f_str import visit_file
 
 
 @pytest.mark.parametrize(
