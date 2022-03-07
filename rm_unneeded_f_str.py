@@ -28,7 +28,6 @@ def remove_unneeded_f_strings(
             content_list[line_no][loc + 1:]
     return '\n'.join(content_list)
 
-
 def visit_file(file: Path) -> bool:
     contents = file.read_text()
     visitor = JoinedStrVisitor()
@@ -39,6 +38,8 @@ def visit_file(file: Path) -> bool:
     else:
         print(f'Rewriting {str(file)}')
         new_contents = remove_unneeded_f_strings(contents, visitor=visitor)
+        if contents.endswith('\n') and not new_contents.endswith('\n'):
+            new_contents += '\n'
         file.write_text(new_contents)
         return True
 
