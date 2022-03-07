@@ -72,11 +72,10 @@ def visit_file(file: Path) -> bool:
             return False
         else:
             print(f'Rewriting {str(file)}')
-
-        if contents.endswith('\n') and not new_contents.endswith('\n'):
-            new_contents += '\n'
-        file.write_text(new_contents)
-        return True
+            if contents.endswith('\n') and not new_contents.endswith('\n'):
+                new_contents += '\n'
+            file.write_text(new_contents)
+            return True
 
 
 def visit_paths(files_or_dirs: list[str]) -> int:
