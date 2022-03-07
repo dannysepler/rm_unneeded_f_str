@@ -11,6 +11,9 @@ from rm_unneeded_f_str import visit_file
 
         # multi-line strings
         ("f'''hello\nworld'''", "'''hello\nworld'''"),
+
+        # preserves trailing new-line if available
+        ("f'hello world'\n", "'hello world'\n"),
     ],
 )
 def test_removes_unneeded_import(before, after, tmp_path):
