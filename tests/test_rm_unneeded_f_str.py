@@ -58,3 +58,13 @@ def test_doesnt_remove_unneeded_import(unchanged_input, tmp_path):
     visit_file(file)
 
     assert file.read_text() == unchanged_input
+
+
+def test_skips_file_with_syntax_errors(tmp_path, capsys):
+    file = tmp_path / 'a.py'
+    file.write_text("print 'hello world'")
+
+    visit_file(file)
+
+    captured = capsys.readouterr()
+    assert f"Skipping {str(file)} due to its syntax errors" in captured.out
