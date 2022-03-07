@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import ast
+import sys
 from pathlib import Path
 
 
@@ -21,12 +22,18 @@ def remove_unneeded_f_strings(
 ) -> str:
     content_list = contents.splitlines()
     for unneeded_f_string in visitor.unneeded_f_strings:
+        loc = unneeded_f_string.col_offset
+
+        # This is likely a bug in python https://bugs.python.org/issue16806
+        if sys.version_info[:2] == (3, 7) and loc == -1:
+            continue
+
         # ASTs start at line 1, but we expect our lists to start at 0
         line_no = unneeded_f_string.lineno - 1
-        loc = unneeded_f_string.col_offset
         content_list[line_no] = content_list[line_no][:loc] + \
             content_list[line_no][loc + 1:]
     return '\n'.join(content_list)
+
 
 def visit_file(file: Path) -> bool:
     contents = file.read_text()

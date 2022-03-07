@@ -1,3 +1,5 @@
+import sys
+
 import pytest
 
 from rm_unneeded_f_str import visit_file
@@ -9,14 +11,30 @@ from rm_unneeded_f_str import visit_file
         ("a = f'hello world'", "a = 'hello world'"),
         ("f'''hello world'''", "'''hello world'''"),
 
-        # multi-line strings
-        ("f'''hello\nworld'''", "'''hello\nworld'''"),
-
         # preserves trailing new-line if available
         ("f'hello world'\n", "'hello world'\n"),
     ],
 )
 def test_removes_unneeded_import(before, after, tmp_path):
+    file = tmp_path / 'a.py'
+    file.write_text(before)
+
+    visit_file(file)
+
+    assert file.read_text() == after
+
+
+# TODO: When py3.7 is deprecated, add this to the above test
+@pytest.mark.skipif(
+    sys.version_info[:2] == (3, 7),
+    reason='py3.7 skips this behavior',
+)
+@pytest.mark.parametrize(
+    'before, after', [
+        ("f'''hello\nworld'''", "'''hello\nworld'''"),
+    ],
+)
+def test_removes_unneeded_import_on_multilines(before, after, tmp_path):
     file = tmp_path / 'a.py'
     file.write_text(before)
 
