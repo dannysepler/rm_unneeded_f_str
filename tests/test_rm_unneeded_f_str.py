@@ -67,4 +67,4 @@ def test_skips_file_with_syntax_errors(tmp_path, capsys):
     visit_file(file)
 
     captured = capsys.readouterr()
-    assert f"Skipping {str(file)} due to its syntax errors" in captured.out
+    assert f'Skipping {str(file)} due to its syntax errors' in captured.out

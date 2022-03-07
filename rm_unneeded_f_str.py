@@ -42,7 +42,7 @@ def visit_file(file: Path) -> bool:
     try:
         parsed = ast.parse(contents)
     except SyntaxError:
-        print(f"Skipping {str(file)} due to its syntax errors")
+        print(f'Skipping {str(file)} due to its syntax errors')
         return False
 
     visitor.visit(parsed)
