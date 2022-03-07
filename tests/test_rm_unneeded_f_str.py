@@ -38,9 +38,10 @@ def test_removes_unneeded_import_on_multilines(before, after, tmp_path):
     file = tmp_path / 'a.py'
     file.write_text(before)
 
-    visit_file(file)
+    ret = visit_file(file)
 
     assert file.read_text() == after
+    assert ret is True
 
 
 @pytest.mark.parametrize(
@@ -57,16 +58,18 @@ def test_doesnt_remove_unneeded_import(unchanged_input, tmp_path):
     file = tmp_path / 'a.py'
     file.write_text(unchanged_input)
 
-    visit_file(file)
+    ret = visit_file(file)
 
     assert file.read_text() == unchanged_input
+    assert ret is False
 
 
 def test_skips_file_with_syntax_errors(tmp_path, capsys):
     file = tmp_path / 'a.py'
     file.write_text("print 'hello world'")
 
-    visit_file(file)
+    ret = visit_file(file)
 
     captured = capsys.readouterr()
     assert f'Skipping {str(file)} due to its syntax errors' in captured.out
+    assert ret is False

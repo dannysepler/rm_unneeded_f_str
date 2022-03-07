@@ -17,6 +17,11 @@ class JoinedStrVisitor(ast.NodeVisitor):
             self.unneeded_f_strings.append(node)
 
 
+def _no_ws(s: str) -> str:
+    """ strip all whitespace from a string """
+    return ''.join(s.split())
+
+
 def remove_unneeded_f_strings(
     contents: str, *, visitor: JoinedStrVisitor,
 ) -> str:
@@ -60,8 +65,14 @@ def visit_file(file: Path) -> bool:
     if not visitor.unneeded_f_strings:
         return False
     else:
-        print(f'Rewriting {str(file)}')
         new_contents = remove_unneeded_f_strings(contents, visitor=visitor)
+        if _no_ws(contents) == _no_ws(new_contents):
+            # If no whitespace change occurs, we probably skipped it.
+            # Therefore, mark as unchanged
+            return False
+        else:
+            print(f'Rewriting {str(file)}')
+
         if contents.endswith('\n') and not new_contents.endswith('\n'):
             new_contents += '\n'
         file.write_text(new_contents)
