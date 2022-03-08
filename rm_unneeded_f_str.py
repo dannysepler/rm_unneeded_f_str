@@ -42,7 +42,10 @@ def remove_unneeded_f_strings(
         # a = 'hi' f'hello'
         #
         # unfortunately, python combines this ^ into one Constant in the AST
-        if content_list[line_no][loc] == 'r' and content_list[line_no][loc+1] == 'f':
+        if (
+            content_list[line_no][loc] == 'r' and
+            content_list[line_no][loc+1] == 'f'
+        ):
             loc += 1
         elif content_list[line_no][loc] != 'f':
             continue
