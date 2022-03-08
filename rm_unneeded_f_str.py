@@ -36,18 +36,17 @@ def remove_unneeded_f_strings(
         # ASTs start at line 1, but we expect our lists to start at 0
         line_no = unneeded_f_string.lineno - 1
 
+        # in case a string like rf'hello' exists
+        if content_list[line_no][loc] == 'r':
+            loc += 1
+
         # A safety check, we should never remove a character that's not 'f'
         # This can occur during the following line of python code, for example:
         #
         # a = 'hi' f'hello'
         #
         # unfortunately, python combines this ^ into one Constant in the AST
-        if (
-            content_list[line_no][loc] == 'r' and
-            content_list[line_no][loc+1] == 'f'
-        ):
-            loc += 1
-        elif content_list[line_no][loc] != 'f':
+        if content_list[line_no][loc] != 'f':
             continue
 
         content_list[line_no] = content_list[line_no][:loc] + \
