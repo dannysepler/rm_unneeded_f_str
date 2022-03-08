@@ -1,7 +1,6 @@
--   id: rm_unneeded_f_str
+-   id: rm-unneeded-f-str
     name: Remove unneeded f-strings
     description: 'Find and replace unneeded f-strings in your code.'
     entry: rm-unneeded-f-str
     language: python
     types: [python]
-    require_serial: true

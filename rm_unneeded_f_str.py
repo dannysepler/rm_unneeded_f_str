@@ -92,10 +92,10 @@ def visit_paths(files_or_dirs: list[str]) -> int:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument('file_or_dir', nargs='*')
+    parser.add_argument('files_or_dirs', nargs='*')
     args = parser.parse_args()
 
-    return visit_paths(args.file_or_dir)
+    return visit_paths(args.files_or_dirs)
 
 
 if __name__ == '__main__':
