@@ -26,12 +26,12 @@ Or use as a pre-commit hook:
 ## Will replace
 
 ```diff
--f'hello world'
-+'hello world'
--f'''hello world'''
-+'''hello world'''
--rf'hello world'
-+r'hello world'
+-f'hello'
++'hello'
+-f'''hello'''
++'''hello'''
+-rf'hello'
++r'hello'
 -f'''hello
 -world'''
 +f'''hello

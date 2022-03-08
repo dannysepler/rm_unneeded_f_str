@@ -7,16 +7,16 @@ from rm_unneeded_f_str import visit_file
 
 @pytest.mark.parametrize(
     'before, after', [
-        ("f'hello world'", "'hello world'"),
-        ("a = f'hello world'", "a = 'hello world'"),
-        ("f'''hello world'''", "'''hello world'''"),
-        ("rf'hello world'", "r'hello world'"),
-        ("fr'hello world'", "r'hello world'"),
-        ("f'{{ hello world }}'", "'{{ hello world }}'"),
+        ("f'hello'", "'hello'"),
+        ("a = f'hello'", "a = 'hello'"),
+        ("f'''hello'''", "'''hello'''"),
+        ("rf'hello'", "r'hello'"),
+        ("fr'hello'", "r'hello'"),
+        ("f'{{ hello }}'", "'{{ hello }}'"),
 
         # preserves leading and trailing whitespace
-        ("f'hello world'\n", "'hello world'\n"),
-        ("\nf'hello world'\n", "\n'hello world'\n"),
+        ("f'hello'\n", "'hello'\n"),
+        ("\nf'hello'\n", "\n'hello'\n"),
     ],
 )
 def test_removes_unneeded_import(before, after, tmp_path):
@@ -52,7 +52,7 @@ def test_removes_unneeded_import_on_multilines(before, after, tmp_path):
 
 @pytest.mark.parametrize(
     'unchanged_input', [
-        "'hello world'",
+        "'hello'",
         # multi-line strings
         "f'''hello\n{world}'''",
         # we can't rewrite the following since the AST combines
@@ -72,7 +72,7 @@ def test_doesnt_remove_unneeded_import(unchanged_input, tmp_path):
 
 def test_skips_file_with_syntax_errors(tmp_path, capsys):
     file = tmp_path / 'a.py'
-    file.write_text("print 'hello world'")
+    file.write_text("print 'hello'")
 
     ret = visit_file(file)
 
