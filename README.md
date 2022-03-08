@@ -30,6 +30,8 @@ Or use as a pre-commit hook:
 +'hello world'
 -f'''hello world'''
 +'''hello world'''
+-rf'hello world'
++r'hello world'
 -f'''hello
 -world'''
 +f'''hello

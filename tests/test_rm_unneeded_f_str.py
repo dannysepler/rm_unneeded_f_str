@@ -10,9 +10,13 @@ from rm_unneeded_f_str import visit_file
         ("f'hello world'", "'hello world'"),
         ("a = f'hello world'", "a = 'hello world'"),
         ("f'''hello world'''", "'''hello world'''"),
+        ("rf'hello world'", "r'hello world'"),
+        ("fr'hello world'", "r'hello world'"),
+        ("f'{{ hello world }}'", "'{{ hello world }}'"),
 
-        # preserves trailing new-line if available
+        # preserves leading and trailing whitespace
         ("f'hello world'\n", "'hello world'\n"),
+        ("\nf'hello world'\n", "\n'hello world'\n"),
     ],
 )
 def test_removes_unneeded_import(before, after, tmp_path):
@@ -32,6 +36,8 @@ def test_removes_unneeded_import(before, after, tmp_path):
 @pytest.mark.parametrize(
     'before, after', [
         ("f'''hello\nworld'''", "'''hello\nworld'''"),
+        ("fr'''hello\nworld'''", "r'''hello\nworld'''"),
+        ("rf'''hello\nworld'''", "r'''hello\nworld'''"),
     ],
 )
 def test_removes_unneeded_import_on_multilines(before, after, tmp_path):
