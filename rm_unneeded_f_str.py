@@ -35,8 +35,12 @@ def remove_unneeded_f_strings(
 
         # ASTs start at line 1, but we expect our lists to start at 0
         line_no = unneeded_f_string.lineno - 1
-        end_line_no = unneeded_f_string.end_lineno
-        end_line_no = line_no if end_line_no is None else end_line_no - 1
+
+        if sys.version_info[:2] == (3, 7):
+            end_line_no = line_no
+        else:
+            end_line_no = unneeded_f_string.end_lineno
+            end_line_no = line_no if end_line_no is None else end_line_no - 1
 
         # in case a string like rf'hello' exists
         if content_list[line_no][loc] == 'r':

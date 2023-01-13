@@ -69,6 +69,10 @@ def test_doesnt_remove_needed_f_str(unchanged_input, tmp_path):
     assert ret is False
 
 
+@pytest.mark.skipif(
+    sys.version_info[:2] == (3, 7),
+    reason='py3.7 does not support fixing strings beyond the first line',
+)
 @pytest.mark.parametrize(
     'before, after', [
         # These braces need to be deduplicated
