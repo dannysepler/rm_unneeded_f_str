@@ -18,7 +18,7 @@ Or use as a pre-commit hook:
 
 ```yaml
 -   repo: https://github.com/dannysepler/rm_unneeded_f_str
-    rev: v0.1.0
+    rev: v0.2.0
     hooks:
     -   id: rm-unneeded-f-str
 ```
